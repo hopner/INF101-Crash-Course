@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Modul 1: Java som språk</title>
+</head>
+
+<body>
+    <div class="slides" data-module-id="m1" data-module-num="01" data-module-title="Java som språk">
+
+        <div class="slide" data-slide-type="title-card">
+            <div class="slide-eyebrow">Modul 1</div>
+            <h2>Java som språk</h2>
+            <p class="slide-sub">Stack og heap, klasser og objekter, grensesnitt, abstrakte klasser, records og enum.
+            </p>
+        </div>
+
+        <div class="slide" data-slide-type="diagram">
+            <h3>Stack og Heap: Minnet i Java</h3>
+            <div class="mem-diagram">
+                <div class="mem-zone">
+                    <div class="mem-title">Stack</div>
+                    <div class="mem-box">
+                        <div class="mem-row"><span class="mem-key">a</span><span class="mem-arrow">-></span><span
+                                class="mem-val">0x4f2</span></div>
+                        <div class="mem-row"><span class="mem-key">x</span><span class="mem-val">42</span></div>
+                        <div class="mem-row"><span class="mem-key">b</span><span class="mem-arrow">-></span><span
+                                class="mem-val">0x4f2</span></div>
+                    </div>
+                    <p class="slide-note">Lokale variabler og referanser. Automatisk frigjort når metoden returnerer.
+                    </p>
+                </div>
+                <div class="mem-sep"><span><-></span></div>
+                <div class="mem-zone">
+                    <div class="mem-title">Heap</div>
+                    <div class="mem-box">
+                        <div class="mem-row"><span class="mem-addr">0x4f2</span><span class="mem-key">Dog</span><span
+                                class="mem-val">{name:"Rex"}</span></div>
+                        <div class="mem-row"><span class="mem-addr">0x6a1</span><span class="mem-key">Dog</span><span
+                                class="mem-val">{name:"Bella"}</span></div>
+                        <div class="mem-row"><span class="mem-addr">0x8c3</span><span class="mem-key">String</span><span
+                                class="mem-val">"Rex"</span></div>
+                    </div>
+                    <p class="slide-note"><code>a</code> og <code>b</code> peker på samme objekt.</p>
+                </div>
+            </div>
+            <div class="callout"><strong>Husk:</strong> <code>return</code> returnerer stack-verdien.</div>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Klasse vs. Objekt vs. Referanse</h3>
+            <div class="two-col">
+                <div class="col-card">
+                    <div class="label">Klasse</div>
+                    <h4>Malen / oppskriften</h4>
+                    <p>Beskriver felter og metoder.</p>
+                    <pre class="s-pre"><span class="kw">public class</span> <span class="ty">Dog</span> { 
+    <span class="kw">private</span> <span class="ty">String</span> name;
+    <span class="kw">public</span> <span class="ty">Dog</span>(<span class="ty">String</span> name) {
+        <span class="kw">this</span>.name = name;
+        }
+    <span class="kw">public</span> <span class="ty">String</span> bark() {
+        <span class="kw">return</span> <span class="str">"Voff!"</span>;
+    }
+}</pre>
+                </div>
+                <div class="col-card">
+                    <div class="label">Objekt</div>
+                    <h4>En konkret instans</h4>
+                    <p>Lages med <code>new</code>. Lever på heap.</p>
+                    <p>Innehar:
+                    <ul>
+                        <li>Type</li>
+                        <li>Oppførsel</li>
+                        <li>Tilstand</li>
+                        <li>Identitet</li>
+                    </ul>
+                    </p>
+                    <pre
+                        class="s-pre"><span class="kw">new</span> <span class="ty">Dog</span>(<span class="str">"Rex"</span>)</pre>
+                </div>
+                <div class="col-card">
+                    <div class="label">Referanse</div>
+                    <h4>En peker til et objekt</h4>
+                    <p>Mange referanser kan peke paa samme objekt.</p>
+                    <pre class="s-pre"><span class="ty">Dog</span> a = <span class="kw">new</span> <span class="ty">Dog</span>(<span class="str">"Rex"</span>);
+<span class="ty">Dog</span> b = a;</pre>
+                </div>
+                <div class="col-card">
+                    <div class="label">equals/hashCode</div>
+                    <h4>Likhet</h4>
+                    <p>Default <code>equals()</code> sammenligner referanser, ikke innhold.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Likhet: equals() og hashCode()</h3>
+            <div class="two-col">
+                <div class="col-card">
+                    <h4>Default oppførsel</h4>
+                    <pre class="s-pre"><span class="ty">Dog</span> a = <span class="kw">new</span> <span class="ty">Dog</span>(<span class="str">"Rex"</span>);
+<span class="ty">Dog</span> b = <span class="kw">new</span> <span class="ty">Dog</span>(<span class="str">"Rex"</span>);
+
+a.<span class="fn">equals</span>(b); <span class="cm">// false</span></pre>
+                    <p>Sammenligner referanser (==)</p>
+                    <p>Krav for likehet:</p>
+                    <ul>
+                        <li>Reflexivitet: x.equals(x) = true</li>
+                        <li>Symmetri: x.equals(y) = y.equals(x)</li>
+                        <li>Transitivitet: x.equals(y) og y.equals(z) => x.equals(z)</li>
+                        <li>Konsistens: gjentatte kall gir samme resultat</li>
+                        <li>Null-sjekk: x.equals(null) = false</li>
+                    </ul>
+                </div>
+                <div class="col-card">
+                    <h4>Overstyring</h4>
+                    <pre class="s-pre"><span class="an">@Override</span>
+<span class="kw">public</span> <span class="ty">boolean</span> <span class="fn">equals</span>(<span class="ty">Object</span> o) {
+    <span class="kw">if</span> (<span class="kw">this</span> == o) <span class="kw">return</span> true;
+    <span class="kw">if</span> (!(o <span class="kw">instanceof</span> <span class="ty">Dog</span> d)) <span class="kw">return</span> false;
+    <span class="kw">return</span> name.<span class="fn">equals</span>(d.name);
+}
+
+<span class="an">@Override</span>
+<span class="kw">public</span> <span class="ty">int</span> <span class="fn">hashCode</span>() {
+    <span class="kw">return</span> name.<span class="fn">hashCode</span>();
+}</pre>
+                </div>
+            </div>
+            <div class="callout callout-blue">
+                <strong>Regel:</strong> Hvis du overstyrer <code>equals()</code>, må du også overstyre
+                <code>hashCode()</code>.
+            </div>
+        </div>
+
+<div class="slide" data-slide-type="content">
+        <h3>Interface og abstrakt klasse</h3>
+        <div class="two-col">
+          <div class="col-card">
+            <div class="label">Interface</div>
+            <h4>Kontrakten</h4>
+            <ul>
+              <li>Kun metodesignaturer (+ default-metoder i Java 8+)</li>
+              <li>Ingen instansfelter</li>
+              <li>En klasse kan implementere mange</li>
+              <li>Brukes for å definere oppførsel</li>
+            </ul>
+            <div class="s-pre"><span class="kw">public interface</span> <span class="ty">Flyable</span> {<br>  <span class="kw">void</span> <span class="fn">fly</span>();<br>}</div>
+          </div>
+          <div class="col-card">
+            <div class="label">Abstrakt klasse</div>
+            <h4>Delvis implementert</h4>
+            <ul>
+              <li>Kan ha felter og konkrete metoder</li>
+              <li>Kan ikke instansieres direkte</li>
+              <li>Arves med <code>extends</code>, en klasse kan kun utvide én klasse</li>
+              <li>Brukes for felles kode mellom subklasser</li>
+            </ul>
+            <div class="s-pre"><span class="kw">public abstract class</span> <span class="ty">Shape</span> {<br>  <span class="kw">public abstract double</span> <span class="fn">area</span>();<br>  <span class="kw">public</span> <span class="ty">String</span> <span class="fn">describe</span>() {<br>    <span class="kw">return</span> <span class="str">"Area: "</span> + <span class="fn">area</span>();<br>  }<br>}</div>
+          </div>
+        </div>
+        <div class="callout callout-blue" style="margin-top:1rem"><strong>Tommelfingerregel:</strong> Bruk interface når du definerer en kontrakt. Bruk abstrakt klasse når subklasser deler konkret kode.</div>
+      </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Records og Enum</h3>
+            <div class="two-col">
+                <div class="col-card">
+            <div class="label">Record (Java 16+)</div>
+            <h4>Immutable dataholder</h4>
+            <p>Automatisk konstruktør, getters, equals, hashCode og toString.</p>
+            <div class="s-pre"><span class="kw">public record</span> <span class="ty">Point</span>(<span class="kw">int</span> x, <span class="kw">int</span> y) {}<br><span class="ty">Point</span> p = <span class="kw">new</span> <span class="ty">Point</span>(<span class="num">3</span>, <span class="num">4</span>);<br>p.x(); <span class="cm">// 3</span></div>
+          </div>
+          <div class="col-card">
+            <div class="label">Enum</div>
+            <h4>Avgrenset verdimengde</h4>
+            <p>Når en variabel bare kan ha et fast sett med verdier. Dette sikrer at det ikke kan oppstå ugyldige verdier.</p>
+            <div class="s-pre"><span class="kw">public enum</span> <span class="ty">Season</span> {<br>  SPRING, SUMMER, FALL, WINTER<br>}<br><span class="ty">Season</span> s = Season.SUMMER;<br><span class="kw">switch</span>(s) { <span class="kw">case</span> SUMMER: ... }</div>
+          </div>
+            </div>
+            <div class="callout callout-green"><strong>Record vs. vanlig klasse:</strong> Records vil være uforanderlige.</div>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Tilgangsmodifikatorer og encapsulation</h3>
+            <ul class="point-list">
+                <li><span class="bullet">-></span>
+                    <div><strong>private</strong> - bare innen klassen.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div><strong>protected</strong> - klassen + subklasser.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div><strong>package-private</strong> - samme pakke.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div><strong>public</strong> - tilgjengelig for alle.</div>
+                </li>
+            </ul>
+            <div class="callout"><strong>Hvordan oppnå gyldige tilstander:</strong> Valider verdier og unngå lekking av
+                foranderlige objekter.</div>
+        </div>
+
+        <div class="slide" data-slide-type="end">
+            <h3>Modul 1 ferdig</h3>
+            <p>Ga tilbake til oppgavesettet for å jobbe med oppgavene F1 og F4.</p>
+        </div>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+[
+    {
+        "id": "m1",
+        "title": "Java som språk",
+        "file": "slides/m1.html"
+    },
+    {
+        "id": "m2",
+        "title": "Generiske typer",
+        "file": "slides/m2.html"
+    },
+    {
+        "id": "m3",
+        "title": "Iterable / Iterator / Collections",
+        "file": "slides/m3.html"
+    },
+    {
+        "id": "m4",
+        "title": "OOP-prinsipper",
+        "file": "slides/m4.html"
+    },
+    {
+        "id": "m5",
+        "title": "Testing med JUnit5",
+        "file": "slides/m5.html"
+    }
+]

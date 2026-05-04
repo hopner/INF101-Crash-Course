@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Modul 4: OOP-prinsipper</title>
+</head>
+
+<body>
+    <div class="slides" data-module-id="m4" data-module-num="04" data-module-title="OOP-prinsipper">
+
+        <div class="slide" data-slide-type="title-card">
+            <div class="slide-eyebrow">Modul 4</div>
+            <h2>OOP-prinsipper</h2>
+            <p class="slide-sub">Encapsulation, polymorfisme, arv vs komposisjon og duplikatkode.</p>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Innkapsling</h3>
+            <ul class="point-list">
+                <li><span class="bullet">1</span>
+                    <div><strong>Private felter.</strong> Dette hindrer direkte tilgang fra utenfor klassen.</div>
+                </li>
+                <li><span class="bullet">2</span>
+                    <div><strong>Validering.</strong> Avvis ugyldige tilstander i konstruktører og metoder for å sikre at data blir behandlet på riktig måte. Kast exceptions ved ugyldige verdier.</div>
+                </li>
+                <li><span class="bullet">3</span>
+                    <div><strong>Ikke lekk mutable objekter.</strong> Man kan fortsatt oppnå ugyldige tilstander dersom referanser til mutable objekter blir returnert fra metoder. Unngå dette ved å opprette kopier av objektene før de returneres.</div>
+                </li>
+                <li><span class="bullet">4</span>
+                    <div><strong>Restriktive typer.</strong> Bruk restriktive typer for å begrense tilgangen til data og metoder.</div>
+                </li>
+            </ul>
+            <pre class="s-pre"><span class="kw">public</span> <span class="ty">List</span>&lt;<span class="ty">String</span>&gt; <span class="fn">getItems</span>() {
+  <span class="kw">return</span> <span class="ty">List</span>.<span class="fn">copyOf</span>(items);
+}</pre>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Polymorfisme</h3>
+            <p>Polymorfisme betyr «mange former». En referanse av type A kan peke på et objekt av type B (subtype av A), og kall på metoden vil bruke B sin implementasjon.</p>
+            <pre
+                class="s-pre"><span class="kw">interface</span> <span class="ty">Shape</span> { <span class="kw">double</span> <span class="fn">area</span>(); }
+<span class="kw">class</span> <span class="ty">Circle</span> <span class="kw">implements</span> <span class="ty">Shape</span> { ... }
+<span class="kw">class</span> <span class="ty">Rectangle</span> <span class="kw">implements</span> <span class="ty">Shape</span> { ... }</pre>
+            <div class="callout callout-green">Dersom du ønsker å legge til en ny form, kan du opprette en ny klasse som implementerer <code>Shape</code> uten å måtte endre eksisterende kode.</div>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Arv vs komposisjon</h3>
+            <div class="two-col">
+                <div class="col-card">
+                    <div class="label">Arv - "er en"</div>
+                    <h4>extends</h4>
+                    <p>Brukes når subklassen er en spesialisering av superklassen.
+                        <ul class="point-list">
+                            <li>Arver all kode fra superklassen.</li>
+                            <li>Kan overskrive metoder.</li>
+                            <li>Liskov-substitution-prinsippet.</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="col-card">
+                    <div class="label">Komposisjon - "har en"</div>
+                    <h4>Felt av annen klasse</h4>
+                    <p>Løsere kobling og enklere å bytte implementasjon.
+                        <ul class="point-list">
+                            <li>Gjenbruker kode ved å benytte objekter av andre klasser.</li>
+                            <li>Mer fleksibel enn arv.</li>
+                            <li>Unngår problemer med arv som diamantproblemet.</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+            <div class="callout">Er du usikker skal du mest sannsynlig velge komposisjon.</div>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Hvordan redusere duplikatkode</h3>
+            <ul class="point-list">
+                <li><span class="bullet">-></span>
+                    <div><strong>Hjelpemetoder.</strong> Trekk ut felles logikk til separate metoder.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div><strong>Arv/abstrakt klasse.</strong> Dersom flere klasser deler samme oppførsel, kan du opprette en abstrakt klasse med felles logikk.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div><strong>Generics.</strong> Bruk generics for å skape type-uavhengig kode.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div><strong>Polymorfisme/interface.</strong> Definer felles oppførsel på et sted.</div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="slide" data-slide-type="end">
+            <h3>Modul 4 ferdig</h3>
+        </div>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INF101 Kræsjkurs</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="slides.css">
+</head>
+
+<body>
+
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="sidebar-logo">
+        <div class="course">INF101 · UiB</div>
+        <div class="title">Kræsjkurs</div>
+        <div class="progress-bar" style="margin: 0.75rem 0 0;">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+      <!-- Sidebar nav will be generated dynamically from content metadata -->
+      <div id="sidebarNav"></div>
+    </nav>
+
+    <main class="main">
+      <div class="page-header">
+        <div class="kurs-badge">INF101 · Kræsjkurs</div>
+        <h1 class="page-title">Eksempeloppgaver<br>med fasit</h1>
+        <p class="page-sub">Oppgavesettet dekker hele eksamensformatet: flervalg, programmering og teori. Klikk på en
+          oppgave for å åpne den, og bruk fasit-knappene når du er klar til å se svarene.</p>
+        <div class="stat-row">
+          <div class="stat">
+            <div class="stat-val">20p</div>
+            <div class="stat-label">Flervalg</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val">20p</div>
+            <div class="stat-label">Programmering</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val">24p</div>
+            <div class="stat-label">Teori</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val">64p</div>
+            <div class="stat-label">Totalt</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========= FLERVALG ========= -->
+      <div class="section-block" id="flervalg">
+        <div class="section-header">
+          <span class="section-tag tag-flervalg">Flervalg</span>
+          <span class="section-title">Del 1 · Flervalgsoppgaver</span>
+          <span class="section-points">20 poeng</span>
+        </div>
+        <div id="flervalgTasks"></div>
+      </div>
+
+      <!-- ========= PROGRAMMERING ========= -->
+      <div id="programmeringSection"></div>
+
+      <!-- ========= TEORI ========= -->
+      <div id="teoriSection"></div>
+
+    </main>
+  </div>
+
+  <div id="slideshowOverlay" class="slideshow-overlay" aria-hidden="true">
+    <div class="slideshow-shell">
+      <div class="slideshow-topbar">
+        <div class="slideshow-title" id="slideshowTitle">Slides</div>
+        <button class="slideshow-btn" id="slideshowPrev" type="button" title="Forrige">←</button>
+        <button class="slideshow-btn" id="slideshowNext" type="button" title="Neste">→</button>
+        <div class="slideshow-counter" id="slideshowCounter">0 / 0</div>
+        <button class="slideshow-btn close" id="slideshowClose" type="button" title="Lukk">Lukk</button>
+      </div>
+      <div class="slideshow-stage" id="slideshowStage"></div>
+    </div>
+  </div>
+
+  <a class="to-top" href="#" title="Til toppen">↑</a>
+
+  <script src="slides-loader.js"></script>
+  <script src="slides-engine.js"></script>
+  <script src="tasks.js"></script>
+  <script src="section-markdown.js"></script>
+  <script src="programmering-section.js"></script>
+  <script src="teori-section.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+  <script src="markdown.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-java.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

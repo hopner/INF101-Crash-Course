@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Modul 3: Iterable / Iterator / Collections</title>
+</head>
+
+<body>
+    <div class="slides" data-module-id="m3" data-module-num="03" data-module-title="Iterable / Iterator / Collections">
+
+        <div class="slide" data-slide-type="title-card">
+            <div class="slide-eyebrow">Modul 3</div>
+            <h2>Iterable / Iterator / Collections</h2>
+            <p class="slide-sub">Hvordan Java går gjennom samlinger.</p>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Iterable og for-each</h3>
+            <div class="two-col">
+                <div class="col-card">
+                    <p>Dersom en klasse implementerer <code>Iterable</code>, kan den brukes i en <code>for-each</code>-løkke.</p>
+                    <pre class="s-pre"><span class="kw">public interface</span> <span class="ty">Iterable</span>&lt;<span class="ty">T</span>&gt; {
+    <span class="ty">Iterator</span>&lt;<span class="ty">T</span>&gt; <span class="fn">iterator</span>();
+}
+<span class="ty">MyCollection</span> col = <span class="kw">new</span> <span class="ty">MyCollection</span>();
+
+<span class="kw">for</span> (<span class="ty">String</span> s : col) {
+    System.out.<span class="fn">println</span>(s);
+}</pre>
+                </div>
+                <div class="col-card">
+                    <p>Under skallet er dette ekvivalent med:</p>
+                    <pre class="s-pre"><span class="ty">Iterator</span>&lt;<span class="ty">String</span>&gt; it = col.<span class="fn">iterator</span>();
+<span class="ty">String</span> s;
+<span class="kw">while</span> (it.<span class="fn">hasNext</span>()) {
+    s = it.<span class="fn">next</span>();
+    System.out.<span class="fn">println</span>(s);
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        <div class="slide" data-slide-type="content">
+            <h3>Iterator - to metoder</h3>
+            <pre class="s-pre"><span class="kw">public interface</span> <span class="ty">Iterator</span>&lt;<span class="ty">E</span>&gt; {
+  <span class="kw">boolean</span> <span class="fn">hasNext</span>();
+  <span class="ty">E</span> <span class="fn">next</span>();
+}</pre>
+            <div class="callout callout-blue"><strong>Merk:</strong> Iterable er samlingen du går gjennom, mens Iterator er objektet som itererer gjennom den.</div>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Comparable vs. Comparator</h3>
+            <div class="two-col">
+                <div class="col-card">
+                    <div class="label">Comparable&lt;T&gt;</div>
+                    <h4>Naturlig rekkefølge</h4>
+                    <p>Klassen implementerer <code>compareTo()</code> selv.</p>
+                    <p>Krav:
+                        <ul class="point-list">
+                            <li><strong>Antisymmetri:</strong> Hvis a.compareTo(b) &lt; 0, så må b.compareTo(a) &gt; 0.</li>
+                            <li><strong>Transitivitet:</strong> Hvis a.compareTo(b) &gt; 0 og b.compareTo(c) &gt; 0, så må a.compareTo(c) &gt; 0.</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="col-card">
+                    <div class="label">Comparator&lt;T&gt;</div>
+                    <h4>Valgbar rekkefølge</h4>
+                    <p>Ekstern sorteringslogikk, dersom man ønsker å sortere etter andre kriterier enn naturlig orden.</p>
+                </div>
+            </div>
+            <div class="callout"><strong>Hovedforskjell:</strong> Klassen implementerer Comparable selv, mens en Comparator er en separat klasse som implementerer sorteringslogikk.</div>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Collections i Java</h3>
+            <ul class="point-list">
+                <li><span class="bullet">-></span>
+                    <div><code>List&lt;T&gt;</code>: ordnet, tillater duplikater. Vanlig å bruke <code>ArrayList</code>.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div><code>Set&lt;T&gt;</code>: uordnet, tillater ikke duplikater.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div><code>Map&lt;K,V&gt;</code>: oppslagsverk mellom en nøkkel og en verdi.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div><code>Collections.sort(list)</code> krever at elementene i listen implementerer <code>Comparable</code>.</div>
+                </li>
+            </ul>
+            <div class="callout callout-green"><strong>Tetris:</strong> Grid implementerte <code>Iterable&lt;GridCell&gt;</code> for å kunne bruke for-each over
+                cellene i rutenettet.</div>
+        </div>
+
+        <div class="slide" data-slide-type="end">
+            <h3>Modul 3 ferdig</h3>
+        </div>
+
+    </div>
+</body>
+
+</html>

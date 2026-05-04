@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Modul 2: Generiske typer</title>
+</head>
+
+<body>
+    <div class="slides" data-module-id="m2" data-module-num="02" data-module-title="Generiske typer">
+
+        <div class="slide" data-slide-type="title-card">
+            <div class="slide-eyebrow">Modul 2</div>
+            <h2>Generiske typer</h2>
+            <p class="slide-sub">Skriv kode en gang, bruk den for mange typer uten å miste typesikkerhet.</p>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Hvorfor generics?</h3>
+            <p>Kan gi god gjenbruk av kode uten å bruke <code>Object</code>.</p>
+            <pre class="s-pre"><span class="kw">class</span> <span class="ty">Box</span>&lt;<span class="ty">T</span>&gt; {
+  <span class="kw">private</span> <span class="ty">T</span> item;
+  <span class="kw">public</span> <span class="ty">T</span> <span class="fn">get</span>() { <span class="kw">return</span> item; }
+  <span class="kw">public void</span> <span class="fn">set</span>(<span class="ty">T</span> item) { <span class="kw">this</span>.item = item; }
+}</pre>
+            <div class="callout callout-green"><strong>T</strong> er brukt her, men vi kunne i teorien ha brukt et hvilket som helst annet navn. Det er vanlig å bruke T, E, K eller V.</div>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Generics og Grensesnitt</h3>
+            <p>Ingenting stopper deg fra å bruke generics med grensesnitt.</p>
+            <pre class="s-pre"><span class="kw">public interface</span> <span class="ty">IGrid</span>&lt;<span class="ty">E</span>&gt; {
+  <span class="ty">E</span> <span class="fn">get</span>(<span class="kw">int</span> row, <span class="kw">int</span> col);
+  <span class="kw">void</span> <span class="fn">set</span>(<span class="kw">int</span> row, <span class="kw">int</span> col, <span class="ty">E</span> value);
+}</pre>
+            <div class="callout callout-blue"><strong>INF101 Lab6:</strong> Samme Grid-klasse kan brukes for Strings
+                og Colors.</div>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Begrenset generics (bounded)</h3>
+            <pre class="s-pre"><span class="kw">public</span> &lt;<span class="ty">T</span> <span class="kw">extends</span> <span class="ty">Comparable</span>&lt;<span class="ty">T</span>&gt;&gt; <span class="ty">T</span> <span class="fn">max</span>(<span class="ty">T</span> a, <span class="ty">T</span> b) {
+  <span class="kw">return</span> a.<span class="fn">compareTo</span>(b) >= <span class="num">0</span> ? a : b;
+}</pre>
+            <ul class="point-list">
+                <li><span class="bullet">-></span>
+                    <div>Setter krav for hva <code>T</code> kan være.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div>Typesikkerhet ved kompilering.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div>Spørsmålstegn <code>?</code> kan brukes for wildcard-types.</div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Eksempel på vanskelig metode-signatur</h3>
+            <p>Dette er en tidligere eksamensoppgave, hva betyr egentlig metode-signaturen til <code>Collections.sort()</code>?</p>
+            <pre class="s-pre"><span class="kw">public static</span> &lt;<span class="ty">T</span> <span class="kw">extends</span> <span class="ty">Comparable</span>&lt;? <span class="kw">super</span> <span class="ty">T</span>&gt;&gt; <span class="kw">void</span> <span class="fn">sort</span>(<span class="ty">List</span>&lt;<span class="ty">T</span>&gt; list)</pre>
+            <ul class="point-list">
+                <li><span class="bullet">-></span>
+                    <div>Metoden kan kalles uten å måtte opprette et <code>Collections</code>-objekt.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div>Dersom <code>T</code> utvider en klasse som er sammenliknbar med seg selv så kan listen sorteres.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div>Dersom <code>T</code> er sammeliknbar med seg selv så kan listen sorteres.</div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="slide" data-slide-type="end">
+            <h3>Modul 2 ferdig</h3>
+        </div>
+
+    </div>
+</body>
+
+</html>

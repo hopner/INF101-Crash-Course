@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Modul 5: Testing med JUnit5</title>
+</head>
+
+<body>
+    <div class="slides" data-module-id="m5" data-module-num="05" data-module-title="Testing med JUnit5">
+
+        <div class="slide" data-slide-type="title-card">
+            <div class="slide-eyebrow">Modul 5</div>
+            <h2>Testing med JUnit5</h2>
+            <p class="slide-sub">Hva er en god test?</p>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Anatomi til en god test</h3>
+            <pre class="s-pre"><span class="an">@Test</span>
+<span class="kw">void</span> <span class="fn">depositIncreasesBalance</span>() {
+  <span class="cm">// Arrange</span>
+  <span class="ty">BankAccount</span> acc = <span class="kw">new</span> <span class="ty">BankAccount</span>(<span class="num">100</span>);
+
+  <span class="cm">// Act</span>
+  acc.<span class="fn">deposit</span>(<span class="num">50</span>);
+
+  <span class="cm">// Assert</span>
+  assertEquals(<span class="num">150</span>, acc.<span class="fn">getBalance</span>(), <span class="num">0.001</span>);
+}</pre>
+            <ul class="point-list">
+                <li><span class="bullet">-></span>
+                    <div>En test, en ting.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div>Beskrivende testnavn.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div>Uavhengige tester, kan bruke (<code>@BeforeEach</code>).</div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Vanlige assertions og annotations</h3>
+            <pre class="s-pre">assertEquals(expected, actual);
+assertTrue(condition);
+assertFalse(condition);
+assertThrows(<span class="ty">IllegalArgumentException</span>.<span class="kw">class</span>, () -> riskyCall());
+
+<span class="an">@Test</span>
+<span class="an">@BeforeEach</span>
+<span class="an">@AfterEach</span>
+<span class="an">@BeforeAll</span></pre>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Hva skal testes?</h3>
+            <ul class="point-list">
+                <li><span class="bullet">-></span>
+                    <div>Ønsket oppførsel.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div>Grenseverdier.</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div>Ugyldig input (null, negative tall).</div>
+                </li>
+                <li><span class="bullet">-></span>
+                    <div>Bivirkninger og intern tilstand.</div>
+                </li>
+            </ul>
+            <div class="callout"><strong>Vanlig feil:</strong> bare teste happy path.</div>
+        </div>
+
+        <div class="slide" data-slide-type="content">
+            <h3>Test-drevet utvikling (TDD)</h3>
+            <ul class="point-list">
+                <li><span class="bullet">1</span>
+                    <div>Skriv en test som feiler.</div>
+                </li>
+                <li><span class="bullet">2</span>
+                    <div>Skriv minste kode som passerer.</div>
+                </li>
+                <li><span class="bullet">3</span>
+                    <div>Refaktorer uten å bryte testene.</div>
+                </li>
+            </ul>
+            <div class="callout callout-blue">Mer om dette i INF112</div>
+        </div>
+
+        <div class="slide" data-slide-type="end">
+            <h3>Modul 5 ferdig</h3>
+        </div>
+
+    </div>
+</body>
+
+</html>
