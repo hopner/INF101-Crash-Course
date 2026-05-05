@@ -173,6 +173,7 @@
     if (task.kind === 'multiChoice') {
       task.hintMd = sectionMap.get('hint') || '';
       task.promptMd = sectionMap.get('oppgave') || '';
+      task.codeMd = sectionMap.get('kode') || '';
       task.groupId = meta.groupId;
       task.options = (sectionMap.get('valg') || '')
         .split(/\r?\n/)

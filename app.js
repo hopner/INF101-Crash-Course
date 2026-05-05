@@ -179,13 +179,19 @@ ${codeHtml}
 }
 
 function renderMultiChoiceTask(task) {
+  const codeHtml = getBlockHtml(task, 'codeHtml', 'codeMd');
+  const promptHtml = getBlockHtml(task, 'promptHtml', 'promptMd');
+  const hintHtml = getBlockHtml(task, 'hintHtml', 'hintMd');
   const optionsHtml = task.options.map(option => {
     return `
           <li class="alt-item" onclick="velgAlt(this,'${task.groupId}',${option.correct})"><span class="alt-box">□</span> ${getInlineHtml(option.text)}</li>`;
   }).join('');
 
   const bodyHtml = `
-        <ul class="alt-list" id="${task.groupId}">
+${codeHtml}
+${promptHtml}
+${hintHtml}
+        <ul class="alt-list" id="${task.groupId}" data-multi-select="true">
           ${optionsHtml}
         </ul>`;
 
@@ -248,12 +254,43 @@ function velgAlt(el, group, correct) {
     return;
   }
 
+  const multiSelect = list.getAttribute('data-multi-select') === 'true';
+
+  if (multiSelect) {
+    const isSelected = el.classList.contains('selected');
+    const box = el.querySelector('.alt-box');
+
+    if (isSelected) {
+      el.classList.remove('selected', 'correct', 'wrong');
+      if (box) {
+        box.textContent = '□';
+      }
+      return;
+    }
+
+    el.classList.add('selected');
+    el.classList.toggle('correct', !!correct);
+    el.classList.toggle('wrong', !correct);
+    if (box) {
+      box.textContent = correct ? '✓' : '✗';
+    }
+    return;
+  }
+
   list.querySelectorAll('.alt-item').forEach(item => {
-    item.classList.remove('correct', 'wrong');
-    item.querySelector('.alt-box').textContent = '□';
+    item.classList.remove('selected', 'correct', 'wrong');
+    const box = item.querySelector('.alt-box');
+    if (box) {
+      box.textContent = '□';
+    }
   });
+
+  el.classList.add('selected');
   el.classList.add(correct ? 'correct' : 'wrong');
-  el.querySelector('.alt-box').textContent = correct ? '✓' : '✗';
+  const box = el.querySelector('.alt-box');
+  if (box) {
+    box.textContent = correct ? '✓' : '✗';
+  }
 }
 
 function suVelg(el, type, correct) {

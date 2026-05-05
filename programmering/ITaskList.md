@@ -80,7 +80,7 @@ public class Main {
 
 ## Hint
 
-Du får poeng for: korrekt funksjonalitet, gode variabelnavn, hjelpemetoder der det passer, og riktig encapsulation. Feil syntax trekker lite, rett tankegang vektes mer.
+Du får poeng for: korrekt funksjonalitet, gode variabelnavn, hjelpemetoder der det passer, og riktig innkapsling. Feil syntaks trekker lite om noe, rett tankegang vektes mer.
 
 ## Fasit
 
@@ -91,7 +91,7 @@ import java.util.*;
 
 public class TaskList implements ITaskList {
 
-    // Intern post-klasse — ikke eksponert utenfor
+    // Intern klasse
     private record Task(String name, Priority priority, boolean completed) {}
 
     private final List<Task> tasks = new ArrayList<>();
@@ -99,6 +99,7 @@ public class TaskList implements ITaskList {
     @Override
     public void addTask(String name, Priority priority) {
         validateName(name);
+        validatePriority(priority);
         if (findTask(name) != null)
             throw new IllegalArgumentException("Oppgave finnes allerede: " + name);
         tasks.add(new Task(name, priority, false));
@@ -115,41 +116,61 @@ public class TaskList implements ITaskList {
 
     @Override
     public int countCompleted() {
-        return (int) tasks.stream()
-            .filter(Task::completed)
-            .count();
+        int count = 0;
+        for (Task t : tasks) {
+            if (t.completed())
+                count++;
+        }
+        return count;
     }
 
     @Override
     public List<String> getByPriority(Priority priority) {
-        return tasks.stream()
-            .filter(t -> t.priority() == priority)
-            .map(Task::name)
-            .toList();
+        validatePriority(priority);
+        List<String> result = new ArrayList<>();
+        for (Task t : tasks) {
+            if (t.priority() == priority)
+                result.add(t.name());
+        }
+        return result;
     }
 
     @Override
     public List<String> getAllSorted() {
-        return tasks.stream()
-            .map(Task::name)
-            .sorted()
-            .toList();
+        List<String> copy = new ArrayList<>(tasks);
+        Collections.sort(copy, new Comparator<Task>() {
+            @Override
+            public int compare(Task t1, Task t2) {
+                return t1.name().compareTo(t2.name());
+            }
+        });
+        List<String> result = new ArrayList<>();
+        for (Task t : copy) {
+            result.add(t.name());
+        }
+        return result;
     }
 
     // --- Hjelpemetoder ---
 
     private Task findTask(String name) {
-        return tasks.stream()
-            .filter(t -> t.name().equals(name))
-            .findFirst()
-            .orElse(null);
+        for (Task t : tasks) {
+            if (t.name().equals(name))
+                return t;
+        }
+        return null;
     }
 
     private void validateName(String name) {
         if (name == null || name.isBlank())
             throw new IllegalArgumentException("Navn kan ikke være blankt");
     }
+
+    private void validatePriority(Priority priority) {
+        if (priority == null)
+            throw new IllegalArgumentException("Prioritet kan ikke være null");
+    }
 }
 ```
 
-**Hva sensor ser etter:** private felt (encapsulation), IllegalArgumentException på ugyldig input, hjelpemetoder (findTask, validateName), korrekte returtyper, meningsfull navngivning.
+**Hva sensor ser etter:** God inkapsling, kodestil, selvdokumenterende kode, og at alle krav i kontrakten er oppfylt. Hjelpemetoder for å unngå duplisering og forbedre lesbarhet. Riktig bruk av enum og exceptions.
